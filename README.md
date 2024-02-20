@@ -1,9 +1,10 @@
 # ttt
 
 An implementation of [tic-tac-toe](https://en.wikipedia.org/wiki/Tic-tac-toe) in C,
-featuring an AI powered by the [negamax](https://en.wikipedia.org/wiki/Negamax) algorithm, [TD learning](https://en.wikipedia.org/wiki/Temporal_difference_learning) algorithm, and the [Monte Carlo tree search (MCTS)](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm.
+featuring an AI powered by the [negamax](https://en.wikipedia.org/wiki/Negamax) algorithm, [TD learning](https://en.wikipedia.org/wiki/Temporal_difference_learning) algorithm, the [Monte Carlo tree search (MCTS)](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm, and the [Monte Carlo learing](https://en.wikipedia.org/wiki/Monte_Carlo_method) algorithm. Within these, TD learning and Monte Carlo learning are based on [RL](https://en.wikipedia.org/wiki/Reinforcement_learning).
 
-## Run
+## Build
+### negamax AI
 If you want to play with negamax AI:
 Build the game:
 ```bash
@@ -13,31 +14,32 @@ and run:
 ```bash
 $ ./ttt
 ```
+### TD learning AI
 If you want to play with TD learning AI:
 Train the state value table first, you could modify 
-- **EPSILON_START** **EPSILON_END**  in `train.c` :  $\epsilon$ in [Epsilon-Greedy Algorithm](https://stanford-cs221.github.io/autumn2020-extra/modules/mdps/epsilon-greedy.pdf) and it would decay exponentially.
-- **NUM_ITERATION** in `train.c`: nums of game iteration 
-- **LEARNING_RATE**, **GAMMA** in `temporal_difference.h`: $\alpha$, $\gamma$ in TD learning.
+- **EPSILON_START** **EPSILON_END**  in `train_td.c` :  $\epsilon$ in [Epsilon-Greedy Algorithm](https://stanford-cs221.github.io/autumn2020-extra/modules/mdps/epsilon-greedy.pdf) and it would decay exponentially.
+- **NUM_ITERATION** in `train_td.c`: nums of game iteration 
+- **LEARNING_RATE**, **GAMMA** in `train_td.c`: $\alpha$, $\gamma$ in TD learning.
 
 
 compile
 ```bash
-$ make train
+$ make train_td
 ```
 and run:
 ```
-$./train
+$./train_td
 ```
 
-Build the game playing with TD agent, it would load the pretrained model from `train`:
+Build the game playing with TD agent, it would load the pretrained model from `train_td`:
 ```bash
-$ make td
+$ make rl
 ```
 and run:
 ```bash
-$ ./td
+$ ./rl
 ```
-
+### MCTS AI
 If you want to play with MCTS AI:  
 There are several hyperparameters you can modify:
 - **EXPLORATION_FACTOR**  in `agents/mcts.h` :  The exploration parameter.
@@ -51,7 +53,32 @@ and run:
 ```bash
 $ ./mcts
 ```
+### Monte Carlo learning AI
+If you want to play with Monte Carlo learning AI:
+Train the state value table first, you could modify 
+- **NUM_ITERATION** in `train_mc.c`: nums of game iteration 
+- **LEARNING_RATE**, **GAMMA** in `train_mc.c`: $\alpha$, $\gamma$ in Monte Carlo learning.
 
+
+compile
+```bash
+$ make train_mc
+```
+and run:
+```
+$./train_mc
+```
+
+Build the game playing with TD agent, it would load the pretrained model from `train_mc`:
+```bash
+$ make rl
+```
+and run:
+```bash
+$ ./rl
+```
+
+## Run
 These program operate entirely in the terminal environment.
 Below is its appearance as it awaits your next move:
 ```

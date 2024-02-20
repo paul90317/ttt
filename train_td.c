@@ -8,17 +8,30 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "agents/temporal_difference.h"
+
+#include "agents/rl_agent.h"
+#include "agents/util.h"
 #include "game.h"
 
+#define LEARNING_RATE 0.02
+#define GAMMA 0.99
 #define NUM_ITERATION 10000
 #define EPSILON_START 0.5
 #define EPSILON_END 0.001
 static double epsilon = EPSILON_START;
 static double decay_factor;
 static unsigned int N_STATES = 1;
-static td_agent_t agent[2];
+static rl_agent_t agent[2];
 #define RAND_UNIFORM ((float) rand() / (float) RAND_MAX)
+
+static void init_td_agent(rl_agent_t *agent,
+                          unsigned int state_num,
+                          char player)
+{
+    init_rl_agent(agent, state_num, player);
+    for (unsigned int i = 0; i < state_num; i++)
+        agent->state_value[i] = get_score(hash_to_table(i), player);
+}
 
 static void init_training()
 {
@@ -38,15 +51,14 @@ static int *get_available_moves(char *table, int *ret_size)
         perror("Failed to allocate memory");
         exit(1);
     }
-    for_each_empty_grid(i, table)
-    {
+    for_each_empty_grid (i, table) {
         available_moves[move_cnt++] = i;
     }
     *ret_size = move_cnt;
     return available_moves;
 }
 
-static int get_action_epsilon_greedy(char *table, td_agent_t *agent)
+static int get_action_epsilon_greedy(char *table, rl_agent_t *agent)
 {
     int move_cnt = 0;
     int *available_moves = get_available_moves(table, &move_cnt);
@@ -57,6 +69,19 @@ static int get_action_epsilon_greedy(char *table, td_agent_t *agent)
     int act = get_action_exploit(table, agent);
     epsilon *= decay_factor;
     return act;
+}
+
+static void update_state_value(char *cur_state,
+                               char *nxt_state,
+                               rl_agent_t *agent)
+{
+    int cur_state_hash = table_to_hash(cur_state);
+    int nxt_state_hash = table_to_hash(nxt_state);
+    int nxt_reward = get_score(hash_to_table(nxt_state_hash), agent->player);
+    agent->state_value[cur_state_hash] =
+        (1 - LEARNING_RATE) * agent->state_value[cur_state_hash] +
+        LEARNING_RATE *
+            (nxt_reward + GAMMA * agent->state_value[nxt_state_hash]);
 }
 
 static void train(int iter)
@@ -86,31 +111,13 @@ static void train(int iter)
     }
 }
 
-static void store_state_value()
-{
-    FILE *fptr = NULL;
-    if ((fptr = fopen(MODEL_NAME, "wb")) == NULL) {
-        perror("Failed to open file");
-        exit(1);
-    }
-    if (fwrite(agent[0].state_value, N_STATES * sizeof(float), 1, fptr) != 1) {
-        perror("Failed to write file");
-        exit(1);
-    }
-    if (fwrite(agent[1].state_value, N_STATES * sizeof(float), 1, fptr) != 1) {
-        perror("Failed to write file");
-        exit(1);
-    }
-    fclose(fptr);
-}
-
 int main()
 {
     init_training();
     for (unsigned int i = 0; i < NUM_ITERATION; i++) {
         train(i);
     }
-    store_state_value();
+    store_state_value(agent, N_STATES);
     free(agent[0].state_value);
     free(agent[1].state_value);
 }

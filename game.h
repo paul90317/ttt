@@ -8,6 +8,10 @@
 #define GET_COL(x) ((x) % BOARD_SIZE)
 #define GET_ROW(x) ((x) / BOARD_SIZE)
 
+#define for_each_empty_grid(i, table) \
+    for (int i = 0; i < N_GRIDS; i++) \
+        if (table[i] == ' ')
+
 typedef struct {
     int i_shift, j_shift;
     int i_lower_bound, j_lower_bound, i_upper_bound, j_upper_bound;
