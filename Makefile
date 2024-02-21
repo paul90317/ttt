@@ -2,8 +2,7 @@ PROG = ttt
 CFLAGS := -Wall -Wextra -std=c11
 CFLAGS += -I. -MMD
 LDFLAGS :=
-TRAIN_TD = train_td
-TRAIN_MC = train_mc
+TRAIN = train
 RL = rl
 MCTS = mcts
 RL_CFLAGS := $(CFLAGS) -D USE_RL
@@ -26,8 +25,7 @@ OBJS := \
 	main.o
 deps := $(OBJS:%.o=%.d)
 deps += $(RL).d
-deps += $(TRAIN_TD).d
-deps += $(TRAIN_MC).d
+deps += $(TRAIN).d
 deps += $(MCTS).d
 
 $(PROG): $(OBJS)
@@ -36,15 +34,12 @@ $(PROG): $(OBJS)
 $(RL): main.c agents/rl_agent.c game.c
 	$(CC) -o $@ $^ $(RL_CFLAGS)
 
-$(TRAIN_TD): $(TRAIN_TD).c agents/rl_agent.c game.c
-	$(CC) $(CFLAGS) -o $@ $^
-
-$(TRAIN_MC): $(TRAIN_MC).c agents/rl_agent.c game.c
+$(TRAIN): $(TRAIN).c agents/rl_agent.c game.c
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(MCTS): main.c agents/mcts.c game.c
 	$(CC) -o $@ $^ $(MCTS_CFLAGS) $(MCTS_LDFLAGS)
 
 clean:
-	-$(RM) $(PROG) $(OBJS) $(deps) $(TRAIN_TD) $(TRAIN_MC) $(RL) $(MCTS)
+	-$(RM) $(PROG) $(OBJS) $(deps) $(TRAIN) $(RL) $(MCTS)
 	-$(RM) *.bin

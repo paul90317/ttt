@@ -28,9 +28,7 @@ jobs:
         run: make
       - name: mcts build
         run: make mcts
-      - name: train_td build
-        run: make train_td
-      - name: train_mc build
-        run: make train_mc
+      - name: train build
+        run: make train
       - name: rl build
         run: make rl

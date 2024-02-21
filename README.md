@@ -1,7 +1,8 @@
 # ttt
 
 An implementation of [tic-tac-toe](https://en.wikipedia.org/wiki/Tic-tac-toe) in C,
-featuring an AI powered by the [negamax](https://en.wikipedia.org/wiki/Negamax) algorithm, [TD learning](https://en.wikipedia.org/wiki/Temporal_difference_learning) algorithm, the [Monte Carlo tree search (MCTS)](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm, and the [Monte Carlo learing](https://en.wikipedia.org/wiki/Monte_Carlo_method) algorithm. Within these, TD learning and Monte Carlo learning are based on [RL](https://en.wikipedia.org/wiki/Reinforcement_learning).
+featuring an AI powered by the [negamax](https://en.wikipedia.org/wiki/Negamax) algorithm, the [reinforcement learning (RL)](https://en.wikipedia.org/wiki/Reinforcement_learning) algorithm, the [Monte Carlo tree search (MCTS)](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm. And the RL algorithm contains the [Monte Carlo learing](https://en.wikipedia.org/wiki/Monte_Carlo_method) algorithm and [TD learning](https://en.wikipedia.org/wiki/Temporal_difference_learning) algorithm.
+
 
 ## Build
 ### negamax AI
@@ -14,24 +15,28 @@ and run:
 ```bash
 $ ./ttt
 ```
-### TD learning AI
-If you want to play with TD learning AI:
-Train the state value table first, you could modify 
-- **EPSILON_START** **EPSILON_END**  in `train_td.c` :  $\epsilon$ in [Epsilon-Greedy Algorithm](https://stanford-cs221.github.io/autumn2020-extra/modules/mdps/epsilon-greedy.pdf) and it would decay exponentially.
-- **NUM_ITERATION** in `train_td.c`: nums of game iteration 
-- **LEARNING_RATE**, **GAMMA** in `train_td.c`: $\alpha$, $\gamma$ in TD learning.
+### reinforcement learning AI
+If you want to play with RL AI:
+Train the state value table first, you could modify the hyperparameters in `train.c`:
+- **NUM_EPISODE** : nums of game episode in training 
+- **LEARNING_RATE**, **GAMMA** : $\alpha$, $\gamma$ in training.
+- **MONTE_CARLO**: use the Monte Carlo method or the TD method.
+- **EPISODE_REWARD**: use the episode result as a reward or `get_score`.
+- **INITIAL_MUTIPLIER**:  the multiplier for the initial value from `get_score`.
+- **EPSILON_GREEDY**: whether or not to use epsilon greedy.
+- **EPSILON_START** **EPSILON_END** : $\epsilon$ in [Epsilon-Greedy Algorithm](https://stanford-cs221.github.io/autumn2020-extra/modules/mdps/epsilon-greedy.pdf) and it would decay exponentially.
 
 
 compile
 ```bash
-$ make train_td
+$ make train
 ```
 and run:
 ```
-$./train_td
+$./train
 ```
 
-Build the game playing with TD agent, it would load the pretrained model from `train_td`:
+Build the game playing with RL agent, it would load the pretrained model from `train`:
 ```bash
 $ make rl
 ```
@@ -52,30 +57,6 @@ $ make mcts
 and run:
 ```bash
 $ ./mcts
-```
-### Monte Carlo learning AI
-If you want to play with Monte Carlo learning AI:
-Train the state value table first, you could modify 
-- **NUM_ITERATION** in `train_mc.c`: nums of game iteration 
-- **LEARNING_RATE**, **GAMMA** in `train_mc.c`: $\alpha$, $\gamma$ in Monte Carlo learning.
-
-
-compile
-```bash
-$ make train_mc
-```
-and run:
-```
-$./train_mc
-```
-
-Build the game playing with TD agent, it would load the pretrained model from `train_mc`:
-```bash
-$ make rl
-```
-and run:
-```bash
-$ ./rl
 ```
 
 ## Run
