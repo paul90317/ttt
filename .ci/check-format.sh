@@ -30,4 +30,9 @@ do
     diff -u -p --label="${file}" --label="expected coding style" ${file} expected-format
 done
 rm expected-format
-exit $($CLANG_FORMATER --output-replacements-xml ${SOURCES} | grep -E -c "</replacement>")
+ret2=$($CLANG_FORMATER --output-replacements-xml ${SOURCES} | grep -E -c "</replacement>")
+
+# check if files end with new line
+ret3=$(find agents/*.[ch] *.[ch] -type f | xargs -L1 bash -c 'test "$(tail -c1 "$0")" && echo "No newline at end of $0"')
+echo "$ret3"
+exit $(($ret || $ret2 || !`test "$ret3"; echo $?`))

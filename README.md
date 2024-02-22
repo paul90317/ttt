@@ -1,7 +1,7 @@
 # ttt
 
 An implementation of [tic-tac-toe](https://en.wikipedia.org/wiki/Tic-tac-toe) in C,
-featuring an AI powered by the [negamax](https://en.wikipedia.org/wiki/Negamax) algorithm, the [reinforcement learning (RL)](https://en.wikipedia.org/wiki/Reinforcement_learning) algorithm, the [Monte Carlo tree search (MCTS)](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm. And the RL algorithm contains the [Monte Carlo learing](https://en.wikipedia.org/wiki/Monte_Carlo_method) algorithm and [TD learning](https://en.wikipedia.org/wiki/Temporal_difference_learning) algorithm.
+featuring an AI powered by the [negamax](https://en.wikipedia.org/wiki/Negamax) algorithm, the [reinforcement learning (RL)](https://en.wikipedia.org/wiki/Reinforcement_learning) algorithm, the [Monte Carlo tree search (MCTS)](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm. And the RL algorithm contains the [Monte Carlo learning](https://en.wikipedia.org/wiki/Monte_Carlo_method) algorithm and [TD learning](https://en.wikipedia.org/wiki/Temporal_difference_learning) algorithm.
 
 
 ## Build
@@ -18,7 +18,7 @@ $ ./ttt
 ### reinforcement learning AI
 If you want to play with RL AI:
 Train the state value table first, you could modify the hyperparameters in `train.c`:
-- **NUM_EPISODE** : nums of game episode in training 
+- **NUM_EPISODE** : the number of game episode in training 
 - **LEARNING_RATE**, **GAMMA** : $\alpha$, $\gamma$ in training.
 - **MONTE_CARLO**: use the Monte Carlo method or the TD method.
 - **EPISODE_REWARD**: use the episode result as a reward or `get_score`.
