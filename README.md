@@ -21,7 +21,7 @@ Train the state value table first, you could modify the hyperparameters in `trai
 - **NUM_EPISODE** : the number of game episode in training 
 - **LEARNING_RATE**, **GAMMA** : $\alpha$, $\gamma$ in training.
 - **MONTE_CARLO**: use the Monte Carlo method or the TD method.
-- **EPISODE_REWARD**: use the episode result as a reward or `get_score`.
+- **REWARD_TRADEOFF**: a tradeoff between the episode reward and the use of `get_score` in the reward calculation.
 - **INITIAL_MUTIPLIER**:  the multiplier for the initial value from `get_score`.
 - **EPSILON_GREEDY**: whether or not to use epsilon greedy.
 - **EPSILON_START** **EPSILON_END** : $\epsilon$ in [Epsilon-Greedy Algorithm](https://stanford-cs221.github.io/autumn2020-extra/modules/mdps/epsilon-greedy.pdf) and it would decay exponentially.
