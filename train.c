@@ -77,28 +77,19 @@ static void init_training()
 }
 
 #if EPSILON_GREEDY
-static int *get_available_moves(char *table, int *ret_size)
-{
-    int move_cnt = 0;
-    int *available_moves = malloc(N_GRIDS * sizeof(int));
-    if (!available_moves) {
-        perror("Failed to allocate memory");
-        exit(1);
-    }
-    for_each_empty_grid (i, table) {
-        available_moves[move_cnt++] = i;
-    }
-    *ret_size = move_cnt;
-    return available_moves;
-}
-
 static int get_action_epsilon_greedy(char *table, rl_agent_t *agent)
 {
-    int move_cnt = 0;
-    int *available_moves = get_available_moves(table, &move_cnt);
     if (RAND_UNIFORM < epsilon) {  // explore
-        printf("explore %d\n", available_moves[rand() % move_cnt]);
-        return available_moves[rand() % move_cnt];
+        int candidate_count = 0;
+        int act = -1;
+        for_each_empty_grid (i, table) {
+            ++candidate_count;
+            if (rand() % candidate_count == 0) {
+                act = i;
+            }
+        }
+        printf("explore %d\n", act);
+        return act;
     }
     int act = get_action_exploit(table, agent);
     epsilon *= decay_factor;
