@@ -31,10 +31,10 @@ deps += $(MCTS).d
 $(PROG): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-$(RL): main.c agents/rl_agent.c game.c
+$(RL): main.c agents/reinforcement_learning.c game.c
 	$(CC) -o $@ $^ $(RL_CFLAGS)
 
-$(TRAIN): $(TRAIN).c agents/rl_agent.c game.c
+$(TRAIN): $(TRAIN).c agents/reinforcement_learning.c game.c
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(MCTS): main.c agents/mcts.c game.c

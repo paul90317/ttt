@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "game.h"
-#include "rl_agent.h"
+#include "reinforcement_learning.h"
 #include "util.h"
 
 // TODO: Find a more efficient hash, we could not store 5x5 or larger board,

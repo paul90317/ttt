@@ -10,7 +10,7 @@
 
 #include "game.h"
 #ifdef USE_RL
-#include "agents/rl_agent.h"
+#include "agents/reinforcement_learning.h"
 #elif defined(USE_MCTS)
 #include "agents/mcts.h"
 #else

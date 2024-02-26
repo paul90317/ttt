@@ -9,7 +9,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "agents/rl_agent.h"
+#include "agents/reinforcement_learning.h"
 #include "agents/util.h"
 #include "game.h"
 
